@@ -64,7 +64,7 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
             # El "System Prompt" del Game Master
             # 1. Definimos una base por si acaso (Esto quita el error de Pylance)
             contexto_gym = ""
-            ccontexto_gym = f"""
+            contexto_gym = f"""
             Eres el 'Quantum Mind Master'. Tu misión es combatir la atrofia cognitiva mediante desafíos de alto nivel.
             USUARIO: {genero}, {edad} años. 
             DISCIPLINA: {disciplina}.
