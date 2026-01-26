@@ -2,6 +2,15 @@ import streamlit as st
 import google.generativeai as genai
 import os
 
+st.markdown(
+    """
+    <div class="banner">
+        <img src="https://raw.githubusercontent.com/egyrmexiq-oss/quantum-portal/main/manos_h_y_r.jpg">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 with st.sidebar:    
 # Logo e Identidad
     try:
