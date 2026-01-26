@@ -101,6 +101,9 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
                - Explica por qué este ejercicio previene el envejecimiento mental a los {edad} años.
             3. SI FALLA: Dale una pista "cuántica" (elegante y misteriosa).
             4. MODOS ESPECIALES:
+            - Si es 'Exploración Mental (¿Dónde estoy?)': 
+                 Actúa como un guía ciego. Describe un lugar emblemático del mundo usando solo el olfato, el tacto, la temperatura y sonidos ambientales (ej: "el crujir de la arena bajo tus pies", "el aroma a incienso y especias"). 
+                 OBJETIVO: El usuario debe adivinar el lugar. Si acierta, explica que ha fortalecido su **Memoria Semántica** y **Visualización Espacial**.
                - Si es 'Lógica': Crea misterios inmersivos.
                - Si es 'Geografía': Describe lugares mediante sensaciones (aire, olores, arquitectura) sin decir nombres.
             5. NUEVO RETO: Si pide empezar, genera un reto de {disciplina} acorde a su madurez.
