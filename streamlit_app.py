@@ -79,11 +79,11 @@ for message in st.session_state.messages:
 # 5. EL GAME MASTER (IA)
 if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
-with st.chat_message("user"):
-    st.markdown(prompt)
+    with st.chat_message("user"):
+        st.markdown(prompt)
 
-with st.chat_message("assistant"):
-with st.spinner("Generando desafío neuronal..."):
+    with st.chat_message("assistant"):
+    with st.spinner("Generando desafío neuronal..."):
             
 # El "System Prompt" del Game Master
  # 1. Definimos una base por si acaso (Esto quita el error de Pylance)
