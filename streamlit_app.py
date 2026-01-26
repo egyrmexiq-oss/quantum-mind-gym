@@ -98,6 +98,8 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
             
             response = model.generate_content([contexto_gym, prompt])
             # Si la IA detecta un acierto, sumamos puntos
+            response = model.generate_content([contexto_gym, prompt])
+            texto_respuesta = response.text
             if "felicidades" in texto_respuesta.lower() or "correcto" in texto_respuesta.lower():
                 st.session_state.neuro_points += 10
             st.markdown(response.text)
