@@ -133,6 +133,6 @@ else:
     st.info("🧬 Sigue procesando... el Master espera tu respuesta definitiva.")
 
     # 3. Mostrar respuesta del Master y guardar
-    with st.chat_message("assistant"):
+with st.chat_message("assistant"):
     st.markdown(texto_respuesta)
         st.session_state.messages.append({"role": "assistant", "content": texto_respuesta})
