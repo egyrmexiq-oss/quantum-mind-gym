@@ -109,13 +109,19 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
             5. NUEVO RETO: Solo si el usuario lo pide o tras haber felicitado un acierto, genera un reto de {disciplina} acorde a sus {edad} años.
             """
             
-          # Generamos la respuesta
+         # --- BLOQUE DE RESPUESTA UNIFICADO ---
+        if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
+            st.session_state.messages.append({"role": "user", "content": prompt})
+            with st.chat_message("user"):
+                st.markdown(prompt)
+
+            # 1. Generamos la respuesta del Master
             response = model.generate_content([contexto_gym, prompt])
             texto_respuesta = response.text
-            
-            # --- NUEVA LÓGICA DE DETECCIÓN DE ÉXITO ---
-            palabras_clave = ["felicidades", "correcto", "acertaste", "enhorabuena", "excelente", "logrado"]
-            es_exito = any(palabra in texto_respuesta.lower() for palabra in palabras_clave)
+
+            # 2. Detección Inteligente de Éxito
+            palabras_exito = ["felicidades", "correcto", "acertaste", "enhorabuena", "excelente", "logrado"]
+            es_exito = any(p in texto_respuesta.lower() for p in palabras_exito)
 
             if es_exito:
                 st.session_state.neuro_points += 10
@@ -124,8 +130,10 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
                 st.toast("¡Conexión Neuronal Reforzada! +10 pts", icon="🧠")
                 st.success("🎯 ¡Reto Superado!") 
             else:
+                # Si no hay éxito, mostramos un mensaje de guía
                 st.info("🧬 Sigue procesando... el Master espera tu respuesta definitiva.")
 
-            # Mostrar respuesta y guardar
-            st.markdown(texto_respuesta)
+            # 3. Mostrar respuesta y guardar en historial
+            with st.chat_message("assistant"):
+                st.markdown(texto_respuesta)
             st.session_state.messages.append({"role": "assistant", "content": texto_respuesta})
