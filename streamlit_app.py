@@ -105,11 +105,17 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
             5. NUEVO RETO: Si pide empezar, genera un reto de {disciplina} acorde a su madurez.
             """ # <--- Alinea estas 3 comillas con la 'c' de contexto_gym para quitar el azul
             
-            response = model.generate_content([contexto_gym, prompt])
-            # Si la IA detecta un acierto, sumamos puntos
+            # Generamos la respuesta una sola vez
             response = model.generate_content([contexto_gym, prompt])
             texto_respuesta = response.text
+            
+            # Lógica de Recompensa y Sonido
             if "felicidades" in texto_respuesta.lower() or "correcto" in texto_respuesta.lower():
                 st.session_state.neuro_points += 10
-            st.markdown(response.text)
-            st.session_state.messages.append({"role": "assistant", "content": response.text})
+                # Disparador de sonido (Hack de HTML)
+                st.markdown('<audio autoplay><source src="https://www.soundjay.com/buttons/sounds/button-37.mp3" type="audio/mpeg"></audio>', unsafe_allow_html=True)
+                st.toast("¡Conexión Neuronal Reforzada! +10 pts", icon="🧠")
+            
+            # Mostrar respuesta y guardar en historial
+            st.markdown(texto_respuesta)
+            st.session_state.messages.append({"role": "assistant", "content": texto_respuesta})
