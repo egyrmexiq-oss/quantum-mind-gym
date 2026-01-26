@@ -73,7 +73,7 @@ for message in st.session_state.messages:
 
 # 5. LÓGICA DEL GAME MASTER CON PUNTUACIÓN DINÁMICA
 # 5. LÓGICA DEL GAME MASTER CON PUNTUACIÓN DINÁMICA
-if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
+if prompt := st.chat_input("Escribe tu pregunta, o tu respuesta o pide un reto..."):
     # Guardamos y mostramos el mensaje del usuario
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
