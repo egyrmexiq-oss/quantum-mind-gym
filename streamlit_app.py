@@ -2,6 +2,13 @@ import streamlit as st
 import google.generativeai as genai
 import os
 
+with st.sidebar:    
+# Logo e Identidad
+    try:
+        st.image("logo_quantum.png", use_container_width=True)
+    except:
+        st.header("🏋️ Quantum Mind GYM")
+
 def play_sound():
     sound_html = """
     <audio autoplay>
