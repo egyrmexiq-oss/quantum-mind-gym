@@ -81,21 +81,17 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
     with st.chat_message("assistant"):
         with st.spinner("Sincronizando redes neuronales..."):
             contexto_gym = f"""
-            Eres el 'Quantum Mind Master', un arquitecto de la cognición superior. 
-            USUARIO: {genero}, {edad} años. DISCIPLINA: {disciplina}.
+            Eres el 'Quantum Mind Master'. 
+            NIVEL DE DIFICULTAD: Ajusta la complejidad según la edad ({edad} años). 
+            - Si la edad es menor a 12 años: Usa retos sencillos, lenguaje lúdico y pistas directas.
+            - Si la edad es mayor a 18: Usa retos sofisticados, inmersivos y lenguaje de Arquitecto.
 
-            REGLA DE ORO: No generes un reto nuevo hasta que el usuario haya resuelto el actual o pida rendirse. 
-            Tu prioridad absoluta es EVALUAR la respuesta del usuario.
+            SISTEMA DE PUNTUACIÓN DINÁMICO:
+            - Evalúa la complejidad del reto propuesto (Escala 1 a 10).
+            - Si el usuario acierta, otorga el puntaje proporcional. Ej: "¡CORRECTO! Has ganado 4 puntos de Neuro-Agilidad por este reto nivel inicial".
+            - IMPORTANTE: Debes decir siempre "CORRECTO" o "FELICIDADES" para activar el contador.
 
-            PROTOCOLO DE RESPUESTA:
-            1. EVALUACIÓN DE RESPUESTA: Si el usuario intenta resolver el misterio, analiza su lógica.
-            2. SI ACIERTA: 
-               - Usa obligatoriamente: "CORRECTO" o "FELICIDADES".
-               - Felicítalo con autoridad. Añade un BIO-ANÁLISIS cerebral.
-            3. SI FALLA: 
-               - Da una pista sutil. No des un reto nuevo aún.
-            4. MODOS: Exploración Mental (sensorial), Lógica (misterios oscuros).
-            5. NUEVO RETO: Solo tras acertar o pedirlo explícitamente.
+            REGLA DE ORO: No saltes de reto. Sube la dificultad solo cuando el usuario demuestre dominio.
             """
             
             response = model.generate_content([contexto_gym, prompt])
