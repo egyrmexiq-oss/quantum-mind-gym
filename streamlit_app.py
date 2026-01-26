@@ -30,6 +30,10 @@ genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
 # 3. BARRA LATERAL - PERFIL DEL ATLETA MENTAL
+if "messages" not in st.session_state:
+     st.session_state.messages = []
+if "neuro_points" not in st.session_state:
+    st.session_state.neuro_points = 0
 with st.sidebar:
     st.image("logo_quantum.png", use_container_width=True) # Usa tu logo
     st.title("🧠 Mind Gym")
@@ -64,10 +68,7 @@ with st.sidebar:
 st.title("🏛️ Quantum Mind Gym")
 st.caption(f"Entrenando la plasticidad neuronal • Perfil: {genero} de {edad} años")
 
-if "messages" not in st.session_state:
-     st.session_state.messages = []
-if "neuro_points" not in st.session_state:
-    st.session_state.neuro_points = 0
+
     
     st.session_state.messages = [{"role": "assistant", "content": "Bienvenido al Gym. Selecciona una disciplina y dime: 'Estoy listo para el reto'."}]
 
