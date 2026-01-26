@@ -70,7 +70,7 @@ st.caption(f"Entrenando la plasticidad neuronal • Perfil: {genero} de {edad} a
 
 
     
-    st.session_state.messages = [{"role": "assistant", "content": "Bienvenido al Gym. Selecciona una disciplina y dime: 'Estoy listo para el reto'."}]
+st.session_state.messages = [{"role": "assistant", "content": "Bienvenido al Gym. Selecciona una disciplina y dime: 'Estoy listo para el reto'."}]
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
