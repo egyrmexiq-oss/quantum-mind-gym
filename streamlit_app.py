@@ -83,15 +83,16 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
             contexto_gym = f"""
             Eres el 'Quantum Mind Master'. 
             NIVEL DE DIFICULTAD: Ajusta la complejidad según la edad ({edad} años). 
-            - Si la edad es menor a 12 años: Usa retos sencillos, lenguaje lúdico y pistas directas.
-            - Si la edad es mayor a 18: Usa retos sofisticados, inmersivos y lenguaje de Arquitecto.
+            - Si la edad es cercana a 8-12 años: Retos muy básicos, lenguaje amigable y divertido.
+            - Si la edad es adulta: Retos sofisticados y lenguaje de Arquitecto.
 
             SISTEMA DE PUNTUACIÓN DINÁMICO:
-            - Evalúa la complejidad del reto propuesto (Escala 1 a 10).
-            - Si el usuario acierta, otorga el puntaje proporcional. Ej: "¡CORRECTO! Has ganado 4 puntos de Neuro-Agilidad por este reto nivel inicial".
-            - IMPORTANTE: Debes decir siempre "CORRECTO" o "FELICIDADES" para activar el contador.
-
-            REGLA DE ORO: No saltes de reto. Sube la dificultad solo cuando el usuario demuestre dominio.
+            - Evalúa la respuesta. Si es correcta, asigna de 1 a 10 puntos según la dificultad del reto.
+            - OBLIGATORIO: Si el usuario acierta, incluye al final de tu respuesta el código: ##PUNTOS:X## (donde X es el número de puntos).
+            
+            PROTOCOLO:
+            1. EVALUAR: Si acierta, di "CORRECTO", da el BIO-ANÁLISIS y el código de puntos.
+            2. PERSISTENCIA: No cambies de reto hasta que logre resolverlo o se rinda.
             """
             
             response = model.generate_content([contexto_gym, prompt])
