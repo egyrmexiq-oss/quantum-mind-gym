@@ -28,17 +28,17 @@ with st.sidebar:
     
     edad = st.slider("Edad:", 18, 100, 45)
     genero = st.radio("Género:", ["Masculino", "Femenino"], horizontal=True)
-    with st.sidebar:
-    # ... (debajo de la edad y género)
-        st.divider()
-    st.metric(label="🧠 Puntos de Neuroplasticidad", value=st.session_state.neuro_points)
+    # Sección de Progreso (Debajo de Género)
+    st.divider()
+    st.metric(label="🧠 Neuro-Agilidad", value=f"{st.session_state.neuro_points} pts")
     
-    # Rango dinámico según puntos
-    rango = "Novato Sináptico"
+    # Rango dinámico
+    rango = "Iniciado Sináptico"
     if st.session_state.neuro_points > 50: rango = "Arquitecto Mental"
     if st.session_state.neuro_points > 100: rango = "Quantum Master"
     
-    st.subheader(f"Rango: {rango}")
+    st.subheader(f"Estatus: {rango}")
+    st.divider()
     st.divider()
     disciplina = st.selectbox("Área de Entrenamiento:", [
         "Lógica Deductiva (Misterios)", 
