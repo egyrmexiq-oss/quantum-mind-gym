@@ -62,51 +62,58 @@ with st.sidebar:
         st.rerun()
 
 # 4. INTERFAZ PRINCIPAL
+# 4. INTERFAZ PRINCIPAL
 st.title("🏛️ Quantum Mind Gym")
 st.caption(f"Entrenando la plasticidad neuronal • Perfil: {genero} de {edad} años")
 
-# Mostrar historial
+# Mostrar historial de mensajes
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# 5. LÓGICA DEL GAME MASTER
+# 5. LÓGICA DEL GAME MASTER CON PUNTUACIÓN DINÁMICA
 if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
-    # Guardar y mostrar mensaje del usuario
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Generar respuesta de la IA
     with st.chat_message("assistant"):
         with st.spinner("Sincronizando redes neuronales..."):
+            # El Cerebro Evolutivo: Ajusta dificultad por edad y asigna puntos
             contexto_gym = f"""
             Eres el 'Quantum Mind Master'. 
-            NIVEL DE DIFICULTAD: Ajusta la complejidad según la edad ({edad} años). 
-            - Si la edad es cercana a 8-12 años: Retos muy básicos, lenguaje amigable y divertido.
-            - Si la edad es adulta: Retos sofisticados y lenguaje de Arquitecto.
+            NIVEL DE DIFICULTAD: Ajusta la complejidad estrictamente a la edad: {edad} años.
+            - Si tiene 8-12 años: Retos simples, lenguaje divertido, tono de "entrenamiento de superhéroes".
+            - Si es adulto: Retos crípticos, lenguaje técnico de Arquitecto.
 
-            SISTEMA DE PUNTUACIÓN DINÁMICO:
-            - Evalúa la respuesta. Si es correcta, asigna de 1 a 10 puntos según la dificultad del reto.
-            - OBLIGATORIO: Si el usuario acierta, incluye al final de tu respuesta el código: ##PUNTOS:X## (donde X es el número de puntos).
+            SISTEMA DE PUNTUACIÓN:
+            - Si acierta, asigna de 1 a 10 puntos según la dificultad del reto.
+            - OBLIGATORIO: Si el usuario acierta, incluye al final: ##PUNTOS:X## (donde X es el puntaje).
             
             PROTOCOLO:
             1. EVALUAR: Si acierta, di "CORRECTO", da el BIO-ANÁLISIS y el código de puntos.
-            2. PERSISTENCIA: No cambies de reto hasta que logre resolverlo o se rinda.
+            2. PERSISTENCIA: No cambies de reto hasta resolverlo.
             """
             
             response = model.generate_content([contexto_gym, prompt])
             texto_respuesta = response.text
             
-            # Detectar éxito
-            palabras_exito = ["felicidades", "correcto", "acertaste", "enhorabuena", "excelente"]
-            es_exito = any(p in texto_respuesta.lower() for p in palabras_exito)
-
-            if es_exito:
-                st.session_state.neuro_points += 10
-                play_sound()
-                st.toast("¡Conexión Neuronal Reforzada!", icon="🧠")
-                st.success("🎯 ¡Reto Superado!")
+            # --- PROCESADOR DE PUNTOS DINÁMICOS ---
+            import re
+            match = re.search(r"##PUNTOS:(\d+)##", texto_respuesta)
             
+            if match:
+                puntos_ganados = int(match.group(1))
+                st.session_state.neuro_points += puntos_ganados
+                play_sound()
+                st.toast(f"¡Neuro-Agilidad +{puntos_ganados} pts!", icon="🧠")
+                st.success(f"🎯 ¡Reto Superado! Ganaste {puntos_ganados} puntos.")
+                # Limpiamos el código técnico del mensaje
+                texto_respuesta = texto_respuesta.replace(match.group(0), "")
+            elif any(p in texto_respuesta.lower() for p in ["correcto", "felicidades"]):
+                # Backup de seguridad
+                st.session_state.neuro_points += 2
+                st.info("🧬 ¡Buen progreso! +2 pts de cortesía.")
+
             st.markdown(texto_respuesta)
             st.session_state.messages.append({"role": "assistant", "content": texto_respuesta})
