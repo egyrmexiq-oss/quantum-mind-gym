@@ -2,11 +2,21 @@ import streamlit as st
 import google.generativeai as genai
 import os
 
+# Para banners, esta es buena opción:
+st.image(
+    "https://raw.githubusercontent.com/egyrmexiq-oss/quantum-portal/main/manos_h_y_r.jpg",
+    use_container_width=True
+)
+
+# Y luego controlas el alto con CSS:
 st.markdown(
     """
-    <div class="banner">
-        <img src="https://raw.githubusercontent.com/egyrmexiq-oss/quantum-portal/main/manos_h_y_r.jpg">
-    </div>
+    <style>
+    .stImage > div > img {
+        max-height: 75px;
+        object-fit: cover;
+    }
+    </style>
     """,
     unsafe_allow_html=True
 )
