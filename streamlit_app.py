@@ -38,7 +38,7 @@ with st.sidebar:
     st.title("🧠 Mind Gym")
     st.divider()
     
-    edad = st.slider("Edad:", 18, 100, 45)
+    edad = st.slider("Edad:", 8, 100, 45)
     genero = st.radio("Género:", ["Masculino", "Femenino"], horizontal=True)
     
     st.divider()
