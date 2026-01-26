@@ -72,29 +72,33 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # 5. LÓGICA DEL GAME MASTER CON PUNTUACIÓN DINÁMICA
+# 5. LÓGICA DEL GAME MASTER CON PUNTUACIÓN DINÁMICA
 if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
+    # Guardamos y mostramos el mensaje del usuario
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
         with st.spinner("Sincronizando redes neuronales..."):
-            # El Cerebro Evolutivo: Ajusta dificultad por edad y asigna puntos
+            # El Master ahora lee la EDAD real del slider
             contexto_gym = f"""
             Eres el 'Quantum Mind Master'. 
             NIVEL DE DIFICULTAD: Ajusta la complejidad estrictamente a la edad: {edad} años.
-            - Si tiene 8-12 años: Retos simples, lenguaje divertido, tono de "entrenamiento de superhéroes".
-            - Si es adulto: Retos crípticos, lenguaje técnico de Arquitecto.
+            - Si tiene entre 8 y 12 años: Usa retos muy simples (colores, animales, lógica básica), lenguaje divertido y tono de "superpoderes".
+            - Si es adulto: Usa retos crípticos, misterios oscuros y lenguaje técnico de Arquitecto Mental.
 
-            SISTEMA DE PUNTUACIÓN:
-            - Si acierta, asigna de 1 a 10 puntos según la dificultad del reto.
-            - OBLIGATORIO: Si el usuario acierta, incluye al final: ##PUNTOS:X## (donde X es el puntaje).
+            SISTEMA DE PUNTUACIÓN (1-10):
+            - Evalúa la dificultad del reto que propusiste.
+            - Si el usuario acierta, asigna un puntaje de 1 a 10.
+            - OBLIGATORIO: Si acierta, incluye al final de tu respuesta: ##PUNTOS:X## (donde X es el puntaje).
             
             PROTOCOLO:
             1. EVALUAR: Si acierta, di "CORRECTO", da el BIO-ANÁLISIS y el código de puntos.
-            2. PERSISTENCIA: No cambies de reto hasta resolverlo.
+            2. PERSISTENCIA: No cambies de reto hasta que lo resuelva o se rinda.
             """
             
+            # Generamos la respuesta
             response = model.generate_content([contexto_gym, prompt])
             texto_respuesta = response.text
             
@@ -105,15 +109,13 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
             if match:
                 puntos_ganados = int(match.group(1))
                 st.session_state.neuro_points += puntos_ganados
-                play_sound()
+                # Disparamos el sonido de éxito
+                st.markdown('<audio autoplay><source src="https://www.soundjay.com/buttons/sounds/button-37.mp3" type="audio/mpeg"></audio>', unsafe_allow_html=True)
                 st.toast(f"¡Neuro-Agilidad +{puntos_ganados} pts!", icon="🧠")
                 st.success(f"🎯 ¡Reto Superado! Ganaste {puntos_ganados} puntos.")
-                # Limpiamos el código técnico del mensaje
+                # Limpiamos el código técnico del mensaje para que el usuario no lo vea
                 texto_respuesta = texto_respuesta.replace(match.group(0), "")
-            elif any(p in texto_respuesta.lower() for p in ["correcto", "felicidades"]):
-                # Backup de seguridad
-                st.session_state.neuro_points += 2
-                st.info("🧬 ¡Buen progreso! +2 pts de cortesía.")
-
+            
+            # Mostramos la respuesta final y guardamos
             st.markdown(texto_respuesta)
             st.session_state.messages.append({"role": "assistant", "content": texto_respuesta})
