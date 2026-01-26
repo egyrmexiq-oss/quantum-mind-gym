@@ -109,30 +109,30 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
             5. NUEVO RETO: Solo si el usuario lo pide o tras haber felicitado un acierto, genera un reto de {disciplina} acorde a sus {edad} años.
             """
          # --- BLOQUE DE RESPUESTA ÚNICO Y UNIFICADO ---
-    if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
+if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+    st.markdown(prompt)
 
         # 1. Generamos la respuesta del Master
-        response = model.generate_content([contexto_gym, prompt])
-        texto_respuesta = response.text
+    response = model.generate_content([contexto_gym, prompt])
+    texto_respuesta = response.text
 
         # 2. Detección Inteligente de Éxito
-        palabras_exito = ["felicidades", "correcto", "acertaste", "enhorabuena", "excelente", "logrado"]
-        es_exito = any(p in texto_respuesta.lower() for p in palabras_exito)
+    palabras_exito = ["felicidades", "correcto", "acertaste", "enhorabuena", "excelente", "logrado"]
+    es_exito = any(p in texto_respuesta.lower() for p in palabras_exito)
 
-        if es_exito:
-            st.session_state.neuro_points += 10
-            # Disparador de sonido
-            st.markdown('<audio autoplay><source src="https://www.soundjay.com/buttons/sounds/button-37.mp3" type="audio/mpeg"></audio>', unsafe_allow_html=True)
-            st.toast("¡Conexión Neuronal Reforzada! +10 pts", icon="🧠")
-            st.success("🎯 ¡Reto Superado!") 
-        else:
-        # Mensaje de persistencia si no hay éxito
-            st.info("🧬 Sigue procesando... el Master espera tu respuesta definitiva.")
+if es_exito:
+    st.session_state.neuro_points += 10
+    # Disparador de sonido
+    st.markdown('<audio autoplay><source src="https://www.soundjay.com/buttons/sounds/button-37.mp3" type="audio/mpeg"></audio>', unsafe_allow_html=True)
+    st.toast("¡Conexión Neuronal Reforzada! +10 pts", icon="🧠")
+    st.success("🎯 ¡Reto Superado!") 
+else:
+    # Mensaje de persistencia si no hay éxito
+    st.info("🧬 Sigue procesando... el Master espera tu respuesta definitiva.")
 
     # 3. Mostrar respuesta del Master y guardar
-        with st.chat_message("assistant"):
-            st.markdown(texto_respuesta)
+    with st.chat_message("assistant"):
+    st.markdown(texto_respuesta)
         st.session_state.messages.append({"role": "assistant", "content": texto_respuesta})
