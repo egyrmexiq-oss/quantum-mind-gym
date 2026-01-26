@@ -97,5 +97,8 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
             """ # <--- Alinea estas 3 comillas con la 'c' de contexto_gym para quitar el azul
             
             response = model.generate_content([contexto_gym, prompt])
+            # Si la IA detecta un acierto, sumamos puntos
+            if "felicidades" in texto_respuesta.lower() or "correcto" in texto_respuesta.lower():
+                st.session_state.neuro_points += 10
             st.markdown(response.text)
             st.session_state.messages.append({"role": "assistant", "content": response.text})
