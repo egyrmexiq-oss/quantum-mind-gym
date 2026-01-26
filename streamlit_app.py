@@ -83,12 +83,12 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
         st.markdown(prompt)
 
 with st.chat_message("assistant"):
-with st.spinner("Generando desafío neuronal..."):
+    with st.spinner("Generando desafío neuronal..."):
             
 # El "System Prompt" del Game Master
  # 1. Definimos una base por si acaso (Esto quita el error de Pylance)
 # UNIFICADO: El Cerebro del Quantum Mind Master
-    contexto_gym = f"""
+        contexto_gym = f"""
     Eres el 'Quantum Mind Master', un arquitecto de la cognición superior. 
     USUARIO: {genero}, {edad} años. DISCIPLINA: {disciplina}.
 
