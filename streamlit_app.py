@@ -13,7 +13,7 @@ st.markdown(
     """
     <style>
     .stImage > div > img {
-        max-height: 75px;
+        max-height: 125px;
         object-fit: cover;
     }
     </style>
