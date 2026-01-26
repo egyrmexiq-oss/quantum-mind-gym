@@ -11,7 +11,7 @@ def play_sound():
     st.markdown(sound_html, unsafe_allow_html=True)
 
 # 1. CONFIGURACIÓN Y ESTILO MIND
-st.set_page_config(page_title="Quantum Mind Gym", page_icon="🧠", layout="wide")
+st.set_page_config(page_title="Quantum Mind Gym", page_icon="🏋️", layout="wide")
 
 st.markdown("""
     <style>
@@ -35,14 +35,14 @@ if "neuro_points" not in st.session_state:
 
 # 3. BARRA LATERAL
 with st.sidebar:
-    st.title("🧠 Mind Gym")
+    st.title("🏋️ Mind Gym")
     st.divider()
     
     edad = st.slider("Edad:", 8, 100, 45)
     genero = st.radio("Género:", ["Masculino", "Femenino"], horizontal=True)
     
     st.divider()
-    st.metric(label="🧠 Neuro-Agilidad", value=f"{st.session_state.neuro_points} pts")
+    st.metric(label="🏋️ Neuro-Agilidad", value=f"{st.session_state.neuro_points} pts")
     
     rango = "Iniciado Sináptico"
     if st.session_state.neuro_points > 50: rango = "Arquitecto Mental"
@@ -111,7 +111,7 @@ if prompt := st.chat_input("Escribe tu pregunta, o tu respuesta o pide un reto..
                 st.session_state.neuro_points += puntos_ganados
                 # Disparamos el sonido de éxito
                 st.markdown('<audio autoplay><source src="https://www.soundjay.com/buttons/sounds/button-37.mp3" type="audio/mpeg"></audio>', unsafe_allow_html=True)
-                st.toast(f"¡Neuro-Agilidad +{puntos_ganados} pts!", icon="🧠")
+                st.toast(f"¡Neuro-Agilidad +{puntos_ganados} pts!", icon="🏋️")
                 st.success(f"🎯 ¡Reto Superado! Ganaste {puntos_ganados} puntos.")
                 # Limpiamos el código técnico del mensaje para que el usuario no lo vea
                 texto_respuesta = texto_respuesta.replace(match.group(0), "")
