@@ -111,7 +111,7 @@ if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
          # --- BLOQUE DE RESPUESTA ÚNICO Y UNIFICADO ---
 if prompt := st.chat_input("Escribe tu respuesta o pide un reto..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
+with st.chat_message("user"):
     st.markdown(prompt)
 
         # 1. Generamos la respuesta del Master
