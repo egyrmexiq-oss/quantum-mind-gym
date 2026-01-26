@@ -2,6 +2,15 @@ import streamlit as st
 import google.generativeai as genai
 import os
 
+def play_sound():
+    # Un tono tecnológico corto y elegante
+    sound_html = """
+    <audio autoplay>
+    <source src="https://www.soundjay.com/buttons/sounds/button-37.mp3" type="audio/mpeg">
+    </audio>
+    """
+    st.markdown(sound_html, unsafe_allow_html=True)
+
 # 1. CONFIGURACIÓN Y ESTILO MIND
 st.set_page_config(page_title="Quantum Mind Gym", page_icon="🧠", layout="wide")
 
