@@ -109,19 +109,20 @@ if prompt := st.chat_input("Escribe tu pregunta, o tu respuesta o pide un reto..
         with st.spinner("Sincronizando redes neuronales..."):
             # El Master ahora lee la EDAD real del slider
             contexto_gym = f"""
-            Eres el 'Quantum Mind Master'. 
-            NIVEL DE DIFICULTAD: Ajusta la complejidad estrictamente a la edad: {edad} años.
-            - Si tiene entre 8 y 12 años: Usa retos muy simples (colores, animales, lógica básica), lenguaje divertido y tono de "superpoderes".
-            - Si es adulto: Usa retos crípticos, misterios oscuros y lenguaje técnico de Arquitecto Mental.
-
-            SISTEMA DE PUNTUACIÓN (1-10):
-            - Evalúa la dificultad del reto que propusiste.
-            - Si el usuario acierta, asigna un puntaje de 1 a 10.
-            - OBLIGATORIO: Si acierta, incluye al final de tu respuesta: ##PUNTOS:X## (donde X es el puntaje).
+            Eres el 'Quantum Mind Master'. Usuario: {edad} años. 
             
-            PROTOCOLO:
-            1. EVALUAR: Si acierta, di "CORRECTO", da el BIO-ANÁLISIS y el código de puntos.
-            2. PERSISTENCIA: No cambies de reto hasta que lo resuelva o se rinda.
+            PROTOCOLO DE ACCIÓN:
+            1. REVISIÓN DE MEMORIA: Mira el historial. 
+               - Si el usuario respondió a un reto previo: Evalúa con "¡CORRECTO!" o "INCORRECTO".
+               - Si NO hay un reto activo o el usuario está saludando/diciendo "no" o "listo": LANZA DE INMEDIATO un nuevo reto de {disciplina}.
+            
+            2. EVALUACIÓN ESTRICTA:
+               - SI ES INCORRECTO: Da una pista sutil según sus {edad} años. PROHIBIDO cambiar de reto.
+               - SI ES CORRECTO: Da el BIO-ANÁLISIS y otorga puntos (1-10) con el código: ##PUNTOS:X##
+            
+            3. TONO POR EDAD: 
+               - 8 años: Detective junior, retos de dulces, juguetes o animales. 
+               - Adulto: Arquitecto mental, misterios lógicos profundos.
             """
             
             # Generamos la respuesta
