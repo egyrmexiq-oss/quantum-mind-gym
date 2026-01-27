@@ -135,19 +135,21 @@ if prompt := st.chat_input("Escribe tu pregunta, o tu respuesta o pide un reto..
             texto_respuesta = response.text
             
             # --- PROCESADOR DE PUNTOS DINÁMICOS ---
+            # --- PROCESADOR DE FEEDBACK Y PUNTOS ---
             import re
             match = re.search(r"##PUNTOS:(\d+)##", texto_respuesta)
             
             if match:
                 puntos_ganados = int(match.group(1))
                 st.session_state.neuro_points += puntos_ganados
-                # Disparamos el sonido de éxito
-                st.markdown('<audio autoplay><source src="https://www.soundjay.com/buttons/sounds/button-37.mp3" type="audio/mpeg"></audio>', unsafe_allow_html=True)
-                st.toast(f"¡Neuro-Agilidad +{puntos_ganados} pts!", icon="🏋️")
-                st.success(f"🎯 ¡Reto Superado! Ganaste {puntos_ganados} puntos.")
-                # Limpiamos el código técnico del mensaje para que el usuario no lo vea
+                play_sound()
+                st.success(f"🌟 ¡RETO SUPERADO! +{puntos_ganados} puntos.")
+                st.balloons() 
                 texto_respuesta = texto_respuesta.replace(match.group(0), "")
+            elif "INCORRECTO" in texto_respuesta.upper():
+                # BONO DE PERSEVERANCIA: 1 punto por recibir una pista
+                st.session_state.neuro_points += 1
+                st.warning("🧠 Sinapsis en proceso... +1 punto de perseverancia. ¡Sigue la pista!")
             
-            # Mostramos la respuesta final y guardamos
             st.markdown(texto_respuesta)
             st.session_state.messages.append({"role": "assistant", "content": texto_respuesta})
