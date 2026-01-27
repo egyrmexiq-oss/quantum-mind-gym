@@ -125,7 +125,12 @@ if prompt := st.chat_input("Escribe tu pregunta, o tu respuesta o pide un reto..
             """
             
             # Generamos la respuesta
-            response = model.generate_content([contexto_gym, prompt])
+            # --- MEMORIA DINÁMICA ---
+            # Tomamos los últimos 4 mensajes para que tenga contexto del reto activo
+            historial_reciente = "\n".join([f"{m['role']}: {m['content']}" for m in st.session_state.messages[-4:]])
+            
+            # Generamos con Memoria + Instrucciones + Mensaje actual
+            response = model.generate_content([contexto_gym, historial_reciente, prompt])
             texto_respuesta = response.text
             
             # --- PROCESADOR DE PUNTOS DINÁMICOS ---
