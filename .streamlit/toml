@@ -1,0 +1,7 @@
+GEMINI_API_KEY = "AIzaSyCgSe4j_n3MVp77y8xp1j82UH3gVZlpuDM"
+# 2. La sección de claves de acceso (¡ESTE TÍTULO ENTRE CORCHETES ES OBLIGATORIO!)
+[access_keys]
+"PROMO2024" = "Cliente VIP"
+"QUANTUM2026" = "Cliente Admin"
+"DEMO" = "Usuario Demo"
+"VIP" = "Acceso VIP"
