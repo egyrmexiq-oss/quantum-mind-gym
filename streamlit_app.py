@@ -114,7 +114,7 @@ with st.sidebar:
         try:
             pdf_data = generar_pdf(st.session_state.neuro_points, edad, genero, st.session_state.messages)
             st.download_button(
-                label="📄 Descargar Reporte Médico",
+                label="📄 Descargar Reporte de Actividad",
                 data=pdf_data,
                 file_name=f"Reporte_Quantum_{datetime.now().strftime('%d%m%Y')}.pdf",
                 mime="application/pdf",
