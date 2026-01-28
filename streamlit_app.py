@@ -15,19 +15,36 @@ def generar_pdf(puntos, edad, genero, historial):
     
     # --- ENCABEZADO DE GYM ---
     pdf.set_font("Arial", 'B', 16)
-    pdf.set_text_color(123, 44, 191) # Color morado institucional
+    pdf.set_text_color(123, 44, 191) # Morado institucional
     pdf.cell(0, 10, "QUANTUM MIND GYM - REPORTE DE ACTIVIDAD", ln=True, align='C')
     pdf.set_text_color(0, 0, 0)
     pdf.set_font("Arial", '', 10)
     pdf.cell(0, 5, f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M')}", ln=True, align='C')
     pdf.ln(10)
     
-    # --- RESUMEN DE ENTRENAMIENTO ---
+    # --- LOGICA DE RANGO Y MEDALLA ---
+    if puntos <= 20:
+        rango_pdf = "Iniciado Sinaptico"
+        medalla = "BRONCE"
+    elif puntos <= 50:
+        rango_pdf = "Arquitecto Mental"
+        medalla = "PLATA"
+    else:
+        rango_pdf = "Quantum Master"
+        medalla = "ORO"
+
+    # --- CUADRO DE HONOR ---
+    pdf.set_fill_color(240, 240, 240)
     pdf.set_font("Arial", 'B', 12)
-    pdf.cell(0, 10, "RESUMEN DEL ATLETA", ln=True)
+    pdf.cell(0, 10, f" RECONOCIMIENTO: {medalla}", ln=True, fill=True)
+    pdf.set_font("Arial", 'B', 14)
+    pdf.cell(0, 10, f"Estatus: {rango_pdf}", ln=True)
+    pdf.ln(5)
+
+    # --- RESUMEN DEL ATLETA ---
     pdf.set_font("Arial", '', 11)
     pdf.cell(0, 7, f"Edad: {edad} años | Genero: {genero}", ln=True)
-    pdf.cell(0, 7, f"Neuro-Agilidad Alcanzada: {puntos} pts", ln=True)
+    pdf.cell(0, 7, f"Neuro-Agilidad Acumulada: {puntos} pts", ln=True)
     pdf.ln(5)
 
     # --- MAPA DE ACTIVACION NEURONAL ---
@@ -37,11 +54,10 @@ def generar_pdf(puntos, edad, genero, historial):
     pdf.ln(2)
 
     pdf.set_font("Arial", '', 9)
-    for m in historial[-6:]: # Los últimos 3 intercambios completos
+    for m in historial[-6:]:
         role = "Atleta" if m["role"] == "user" else "Master"
-        # Limpieza de caracteres para evitar errores en PDF
         content = m["content"].replace("##PUNTOS:", "Pts: ").replace("##", "")
-        # El truco para los acentos:
+        # Limpieza de acentos para compatibilidad PDF
         content = content.encode('latin-1', 'ignore').decode('latin-1')
         pdf.multi_cell(0, 5, f"{role}: {content}")
         pdf.ln(1)
