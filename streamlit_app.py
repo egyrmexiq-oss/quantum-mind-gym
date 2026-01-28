@@ -13,33 +13,36 @@ def generar_pdf(puntos, edad, genero, historial):
     pdf = FPDF()
     pdf.add_page()
     
-    # Encabezado Médico Minimalista
+    # --- ENCABEZADO DE GYM ---
     pdf.set_font("Arial", 'B', 16)
+    pdf.set_text_color(123, 44, 191) # Color morado institucional
     pdf.cell(0, 10, "QUANTUM MIND GYM - REPORTE DE ACTIVIDAD", ln=True, align='C')
+    pdf.set_text_color(0, 0, 0)
     pdf.set_font("Arial", '', 10)
     pdf.cell(0, 5, f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M')}", ln=True, align='C')
     pdf.ln(10)
-    pdf.line(10, 30, 200, 30) 
     
-    # Ficha del Atleta
+    # --- RESUMEN DE ENTRENAMIENTO ---
     pdf.set_font("Arial", 'B', 12)
-    pdf.cell(0, 10, "PERFIL DEL ATLETA", ln=True)
+    pdf.cell(0, 10, "RESUMEN DEL ATLETA", ln=True)
     pdf.set_font("Arial", '', 11)
-    pdf.cell(0, 7, f"Edad: {edad} años", ln=True)
-    pdf.cell(0, 7, f"Genero: {genero}", ln=True)
-    pdf.cell(0, 7, f"Neuro-Agilidad Total: {puntos} pts", ln=True)
+    pdf.cell(0, 7, f"Edad: {edad} años | Genero: {genero}", ln=True)
+    pdf.cell(0, 7, f"Neuro-Agilidad Alcanzada: {puntos} pts", ln=True)
     pdf.ln(5)
-    
-    # Bitácora de Sesión
-    pdf.set_fill_color(245, 245, 245)
+
+    # --- MAPA DE ACTIVACION NEURONAL ---
+    pdf.set_fill_color(240, 230, 255)
     pdf.set_font("Arial", 'B', 12)
-    pdf.cell(0, 10, " BITACORA DE ESTIMULACION COGNITIVA", ln=True, fill=True)
+    pdf.cell(0, 10, " ZONAS MUSCULARES ESTIMULADAS", ln=True, fill=True)
     pdf.ln(2)
-    
+
     pdf.set_font("Arial", '', 9)
-    for m in historial[-8:]: # Ultimos 8 mensajes para brevedad
+    for m in historial[-6:]: # Los últimos 3 intercambios completos
         role = "Atleta" if m["role"] == "user" else "Master"
+        # Limpieza de caracteres para evitar errores en PDF
         content = m["content"].replace("##PUNTOS:", "Pts: ").replace("##", "")
+        # El truco para los acentos:
+        content = content.encode('latin-1', 'ignore').decode('latin-1')
         pdf.multi_cell(0, 5, f"{role}: {content}")
         pdf.ln(1)
         
