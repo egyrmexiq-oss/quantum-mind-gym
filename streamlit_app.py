@@ -140,9 +140,46 @@ if prompt := st.chat_input("Escribe tu pregunta, o tu respuesta o pide un reto..
         with st.spinner("Sincronizando redes neuronales..."):
             contexto_gym = f"""
             Eres el 'Quantum Mind Master'. Usuario: {edad} años. 
-            PROTOCOLO:
-            1. REVISIÓN: Mira el historial. Evalúa la respuesta ignorando mayúsculas, minúsculas o tildes.
-            2. EVALUACIÓN: SI ES CORRECTA (ej: 'carlos' es igual a 'Carlos') -> ##PUNTOS:X## + BIO-ANÁLISIS. 
-               SI ES INCORRECTA -> Pista sutil según {edad} años.
-            3. TONO: {edad} años (Detective junior si es niño, Arquitecto si es adulto).
+            
+            PROTOCOLO DE ACCIÓN:
+            1. REVISIÓN DE MEMORIA: Mira el historial. 
+               - Si el usuario respondió a un reto previo: Evalúa con "¡CORRECTO!" o "INCORRECTO".
+               - Si NO hay un reto activo o el usuario está saludando/diciendo "no" o "listo": LANZA DE INMEDIATO un nuevo reto de {disciplina}.
+            
+            2. EVALUACIÓN ESTRICTA:
+               - SI ES INCORRECTO: Da una pista sutil según sus {edad} años. PROHIBIDO cambiar de reto.
+               - SI ES CORRECTO: Da el BIO-ANÁLISIS y otorga puntos (1-10) con el código: ##PUNTOS:X##
+            
+            3. TONO POR EDAD: 
+               - 8 años: Detective junior, retos de dulces, juguetes o animales. 
+               - Adulto: Arquitecto mental, misterios lógicos profundos.
             """
+            
+            # Generamos la respuesta
+            # --- MEMORIA DINÁMICA ---
+            # Tomamos los últimos 4 mensajes para que tenga contexto del reto activo
+            historial_reciente = "\n".join([f"{m['role']}: {m['content']}" for m in st.session_state.messages[-4:]])
+            
+            # Generamos con Memoria + Instrucciones + Mensaje actual
+            response = model.generate_content([contexto_gym, historial_reciente, prompt])
+            texto_respuesta = response.text
+            
+            # --- PROCESADOR DE PUNTOS DINÁMICOS ---
+            # --- PROCESADOR DE FEEDBACK Y PUNTOS ---
+            import re
+            match = re.search(r"##PUNTOS:(\d+)##", texto_respuesta)
+            
+            if match:
+                puntos_ganados = int(match.group(1))
+                st.session_state.neuro_points += puntos_ganados
+                play_sound()
+                st.success(f"🌟 ¡RETO SUPERADO! +{puntos_ganados} puntos.")
+                st.balloons() 
+                texto_respuesta = texto_respuesta.replace(match.group(0), "")
+            elif "INCORRECTO" in texto_respuesta.upper():
+                # BONO DE PERSEVERANCIA: 1 punto por recibir una pista
+                st.session_state.neuro_points += 1
+                st.warning("🧠 Sinapsis en proceso... +1 punto de perseverancia. ¡Sigue la pista!")
+            
+            st.markdown(texto_respuesta)
+            st.session_state.messages.append({"role": "assistant", "content": texto_respuesta})
