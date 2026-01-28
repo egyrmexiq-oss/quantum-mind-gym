@@ -66,7 +66,7 @@ st.markdown(
 
 # --- CONEXIÓN Y ESTADO ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel('gemini-2.5-flash-exp')
+model = genai.GenerativeModel('gemini-2.5-flash')
 
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "Bienvenido al Gym. Selecciona una disciplina y dime: 'Estoy listo para el reto'."}]
