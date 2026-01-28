@@ -148,8 +148,9 @@ if prompt := st.chat_input("Escribe tu pregunta, o tu respuesta o pide un reto..
             
             2. EVALUACIÓN ESTRICTA:
                - SI ES INCORRECTO: Da una pista sutil según sus {edad} años. PROHIBIDO cambiar de reto.
-               - SI ES CORRECTO: Da el BIO-ANÁLISIS y otorga puntos (1-10) con el código: ##PUNTOS:X##
-            
+               - SI ES CORRECTO: Da el BIO-ANÁLISIS y otorga puntos (1-10) con el código: ##PUNTOS:X## + BIO-ANÁLISIS DE MÚSCULO MENTAL.
+               - El BIO-ANÁLISIS debe mencionar qué área se activó (ej: Córtex Prefrontal para lógica, Hipocampo para memoria).
+               
             3. TONO POR EDAD: 
                - 8 años: Detective junior, retos de dulces, juguetes o animales. 
                - Adulto: Arquitecto mental, misterios lógicos profundos.
