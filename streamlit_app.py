@@ -142,7 +142,7 @@ if prompt := st.chat_input("Escribe tu pregunta, o tu respuesta o pide un reto..
             Eres el 'Quantum Mind Master'. Usuario: {edad} años. 
             
             PROTOCOLO DE ACCIÓN:
-            1. REVISIÓN DE MEMORIA: Mira el historial. 
+            1. REVISIÓN DE MEMORIA: Mira el historial. Evalúa ignorando mayúsculas.
                - Si el usuario respondió a un reto previo: Evalúa con "¡CORRECTO!" o "INCORRECTO".
                - Si NO hay un reto activo o el usuario está saludando/diciendo "no" o "listo": LANZA DE INMEDIATO un nuevo reto de {disciplina}.
             
